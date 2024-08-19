@@ -1,7 +1,8 @@
 import { BaseEntity } from '../common/abstracts/base.entity';
+import { EntityName } from '../common/enums/entity.name.enum';
 import { Column, DeleteDateColumn, Entity, UpdateDateColumn } from 'typeorm';
 
-@Entity({ name: 'users' })
+@Entity({ name: EntityName.Users })
 export class UserEntity extends BaseEntity
 {
     @Column({ nullable: false })
