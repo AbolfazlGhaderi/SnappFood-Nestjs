@@ -1,15 +1,16 @@
-import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-export function DatabaseConfig(): MikroOrmModuleSyncOptions
+export function DatabaseConfigs(): TypeOrmModuleOptions
 {
+
     return {
         port: +process.env.DB_PORT || 5432,
-        user: process.env.DB_USERNAME,
+        username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
-        dbName: process.env.DB_NAME,
-        driver:PostgreSqlDriver,
-        entitiesTs:[ './src/entities/*.entity.ts' ],
-        entities:[ './dist/entities/*.entity.js' ],
+        database: process.env.DB_NAME,
+        type: 'postgres',
+        entities: [ './dist/entities/*.entity.js' ],
+        synchronize: true,
+        logging: true,
     };
 }
