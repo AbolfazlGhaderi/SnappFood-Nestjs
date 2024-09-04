@@ -1,5 +1,6 @@
 import { S3 } from 'aws-sdk';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ServiceUnavailableMessage } from '@/common/enums/message.enum';
 
 @Injectable()
 export class S3Service
@@ -20,22 +21,43 @@ export class S3Service
         );
     }
 
-    // async UploadFile(file: Express.Multer.File)
-    // {
-    //     const Param = {
-    //         Body: file.buffer,
-    //         Bucket: process.env.LIARA_BUCKET_OBJS_NAME,
-    //         Key: file.originalname,
-    //     };
+    async UploadFile(file: Express.Multer.File)
+    {
+        const Param = {
+            Body: file.buffer,
+            Bucket: process.env.LIARA_BUCKET_OBJS_NAME,
+            Key: file.originalname,
+        };
 
-    //     try
-    //     {
-    //         return await this.s3.send(new PutObjectCommand(Param));
-    //     }
-    //     catch (error)
-    //     {
-    //         console.log(error);
-    //         throw new HttpException(PublicMessage.SystemError, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
+        try
+        {
+            return await this.s3.upload({
+                Body: file.buffer,
+                Bucket: process.env.S3_BUCKET,
+                Key: file.originalname,
+            }).promise();
+        }
+        catch (error)
+        {
+            console.log(error);
+            throw new HttpException(ServiceUnavailableMessage.UploadeServiceUnavailable, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
+
+    async DeleteFile(key:string)
+    {
+        try
+        {
+            return await this.s3.deleteObject({
+                Bucket:process.env.S3_BUCKET,
+                Key: decodeURI(key),
+            }).promise();
+        }
+        catch (error)
+        {
+            console.log(error);
+            throw new HttpException(ServiceUnavailableMessage.UploadeServiceUnavailable, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+    }
 }
 
