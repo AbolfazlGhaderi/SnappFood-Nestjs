@@ -6,9 +6,8 @@ import { CheckEnvironmentVariables } from './app/utils/checkEnvironment';
 async function bootstrap()
 {
 
-    CheckEnvironmentVariables('PORT', 'DB_PORT', 'DB_USERNAME', 'DB_PASSWORD', 'DB_NAME');
+    CheckEnvironmentVariables('DB_HOST', 'DB_NAME', 'DB_PASSWORD', 'DB_USERNAME', 'DB_PORT');
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
-    const { PORT } = process.env;
-    await app.listen(+PORT || 3000);
+    await app.listen(process.env.PORT || 3000);
 }
 void bootstrap();
