@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/require-await */
 import { CategoryService } from './category.service';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { PaginationDTO } from '@/common/dto/pagination.dto';
 import { CreateCategoryDTO } from './dto/create-category.dto';
+import { pagination } from '@/common/decorators/pagination.decorator';
 import { SwaggerConsumes } from '@/common/enums/awagger.consumes.enum';
 import { UploadeFileS3Interceptor } from '@/app/interceptors/uploadFile.interceptor';
-import { Body, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 
 @ApiTags('Category')
 @Controller('category')
@@ -31,5 +33,12 @@ export class CategoryController
     )
     {
         return await this.categoryService.CreateCategory(createCategoryData, file);
+    }
+
+    @Get('/')
+    @pagination()
+    async GetAllCategories(@Query() paginationData:PaginationDTO)
+    {
+        return await this.categoryService.GetAllCategories(paginationData);
     }
 }
