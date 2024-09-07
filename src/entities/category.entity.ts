@@ -14,8 +14,6 @@ export class CategoryEntity extends BaseEntity
     image: string;
     @Column({ type: 'boolean' })
     show: boolean;
-    @Column({ unique: true, nullable: false })
-    postal_code: string;
     @ManyToOne(() => CategoryEntity, (category) => category.children, { onDelete: 'CASCADE' })
     @JoinColumn({ name:'parent_id' })
     parent: CategoryEntity;
