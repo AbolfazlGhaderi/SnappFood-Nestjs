@@ -21,6 +21,6 @@ export class CategoryRepository extends Repository<CategoryEntity>
 
     async findOneById(id: string)
     {
-        return await this.findOne({ where: { id: id } });
+        return await this.findOne({ where: { id: id }, relations:[ 'parent' ] });
     }
 }
