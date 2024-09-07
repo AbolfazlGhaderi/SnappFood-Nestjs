@@ -6,6 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { CheckEnvironmentVariables } from '@/app/utils/checkEnvironment';
 import { HttpExceptionFilter } from '@/app/exceptionFilters/http.exceptionFilter';
 import { ResponseControllerInterceptor } from './app/interceptors/response.controller.interceptor';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap()
 {
@@ -17,7 +18,7 @@ async function bootstrap()
     // initialize app
     app.useGlobalFilters(new HttpExceptionFilter());
     app.useGlobalInterceptors(new ResponseControllerInterceptor());
-
+    app.useGlobalPipes( new ValidationPipe());
     // Swagger
     SwaggerConfig(app);
 
