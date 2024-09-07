@@ -9,7 +9,7 @@ export class CreateCategoryDTO
     @ApiProperty({ format: 'binary', description: 'Type should be PNG / JPG' })
     image: string;
     @ApiProperty({ type:'boolean' })
-    show: boolean;
+    show: string;
     @ApiPropertyOptional()
     parent_id: number;
 }

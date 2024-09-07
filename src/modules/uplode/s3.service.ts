@@ -23,12 +23,6 @@ export class S3Service
 
     async UploadFile(file: Express.Multer.File)
     {
-        const Param = {
-            Body: file.buffer,
-            Bucket: process.env.LIARA_BUCKET_OBJS_NAME,
-            Key: file.originalname,
-        };
-
         try
         {
             return await this.s3.upload({
