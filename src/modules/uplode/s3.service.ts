@@ -1,6 +1,7 @@
 import { S3 } from 'aws-sdk';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ServiceUnavailableMessage } from '@/common/enums/message.enum';
+import { GenerateName } from '@/common/enums/functions.utils';
 
 @Injectable()
 export class S3Service
@@ -25,10 +26,11 @@ export class S3Service
     {
         try
         {
+
             return await this.s3.upload({
                 Body: file.buffer,
                 Bucket: process.env.S3_BUCKET,
-                Key: file.originalname,
+                Key: GenerateName(file.originalname),
             }).promise();
         }
         catch (error)
