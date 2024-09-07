@@ -1,6 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import { AppModule } from '@/app.module';
 import { NestFactory } from '@nestjs/core';
+import { SwaggerConfig } from './configs/swagger.config';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { CheckEnvironmentVariables } from '@/app/utils/checkEnvironment';
 import { HttpExceptionFilter } from '@/app/exceptionFilters/http.exceptionFilter';
@@ -17,7 +18,15 @@ async function bootstrap()
     app.useGlobalFilters(new HttpExceptionFilter());
     app.useGlobalInterceptors(new ResponseControllerInterceptor());
 
+    // Swagger
+    SwaggerConfig(app);
 
-    await app.listen(process.env.PORT || 3000);
+    // listen
+    const { PORT } = process.env;
+    await app.listen(PORT || 3000);
+
+    // logs
+    console.log(`app :  http://localhost:${PORT}`);
+    console.log(`Swagger :  http://localhost:${PORT}/api`);
 }
 void bootstrap();
