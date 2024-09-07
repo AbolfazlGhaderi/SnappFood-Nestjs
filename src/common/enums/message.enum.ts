@@ -29,7 +29,7 @@ export enum NotFoundMessages {
 export enum ConflictMessages {
    EmailConflict = 'این ایمیل قبلا ثبت شده است',
    UserConflict = 'این نام کاربری قبلا ثبت شده است',
-   BlogConflict = 'این مقاله قبلا ثبت شده است',
+   CategoryConflict = 'این دسته بندی قبلا ثبت شده است',
    PhoneConflict = 'این شماره موبایل قبلا ثبت شده است',
 }
 
