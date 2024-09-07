@@ -30,8 +30,6 @@ export class CategoryController
         @Body() createCategoryData:CreateCategoryDTO,
     )
     {
-        console.log(1, file);
-        console.log(2, createCategoryData);
-
+        return await this.categoryService.CreateCategory(createCategoryData, file);
     }
 }
