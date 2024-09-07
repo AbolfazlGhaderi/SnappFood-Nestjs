@@ -1,10 +1,12 @@
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-misleading-character-class */
+/* eslint-disable unicorn/better-regex */
 import { extname } from 'node:path';
 import { randomBytes } from 'node:crypto';
-import { isBoolean } from 'class-validator';
 
 export const createSlug = (string: string) =>
 {
-    return string.replaceAll(/[!"#$%&'()*+./:;<>?@^_`~«»،ءًٌٍُِ-]+/g, '')?.replace(/\s+/g, '-');
+    return string.replaceAll(/[\/!"#$%&'()*+.:;<>?@^_`~«»،ءًٌٍُِ]+/g, '').replaceAll(/\s+/g, '-');
 };
 
 export function GenerateRandomByte(size: number)
