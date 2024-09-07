@@ -16,7 +16,7 @@ export class CategoryEntity extends BaseEntity
     show: boolean;
     @ManyToOne(() => CategoryEntity, (category) => category.children, { onDelete: 'CASCADE' })
     @JoinColumn({ name:'parent_id' })
-    parent: CategoryEntity;
+    parent: CategoryEntity | null;
     @OneToMany(() => CategoryEntity, (category) => category.parent)
     children: CategoryEntity[];
 
