@@ -7,6 +7,7 @@ export enum BadRequestMesage {
     CategoryIncorrect = 'دسته بندی مورد نظر ثبت نشده است .  لطفا آن را ثبت کنید',
     ExistEmail = 'ایمیلی برای این نام کاربری وجود دارد',
     ExistPhone = 'شماره موبایلی برای این نام کاربری وجود دارد',
+    InvalidUuid = 'آیدی دسته بندی وارد شده  معتبر نمی باشد',
 }
 
 export enum AuthMessage {

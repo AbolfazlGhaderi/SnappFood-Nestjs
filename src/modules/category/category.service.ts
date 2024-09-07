@@ -6,7 +6,9 @@ import { CreateCategoryDTO } from './dto/create-category.dto';
 import { PaginationGenerator, PaginationSolver } from '@/app/utils/pagination.utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CheckBoolean, createSlug } from '@/common/enums/functions.utils';
-import { ConflictMessages, NotFoundMessages, PublicMessage } from '@/common/enums/message.enum';
+import { BadRequestMesage, ConflictMessages, NotFoundMessages, PublicMessage } from '@/common/enums/message.enum';
+import { UpdateCategoryDto } from './dto/update-category.dto';
+import { isUUID, IsUUID } from 'class-validator';
 
 @Injectable()
 export class CategoryService
@@ -27,6 +29,8 @@ export class CategoryService
             let parent: CategoryEntity | null = null;
             if (data.parent_id)
             {
+                if (!isUUID(data.parent_id.toString()))
+                    throw new HttpException(BadRequestMesage.InvalidUuid, HttpStatus.BAD_REQUEST);
                 parent = await this.categoryRepository.findOneById(data.parent_id.toString());
                 if (!parent) throw new HttpException(NotFoundMessages.CategoryNotFound, HttpStatus.NOT_FOUND);
             }
@@ -102,4 +106,5 @@ export class CategoryService
             categories:categories,
         };
     }
+
 }
