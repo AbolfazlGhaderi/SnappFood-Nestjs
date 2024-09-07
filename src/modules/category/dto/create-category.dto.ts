@@ -11,5 +11,5 @@ export class CreateCategoryDTO
     @ApiProperty({ type:'boolean' })
     show: string;
     @ApiPropertyOptional()
-    parent_id: number;
+    parent_id: string;
 }

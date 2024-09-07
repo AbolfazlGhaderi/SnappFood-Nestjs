@@ -1,34 +1,56 @@
 import { S3Service } from '../uplode/s3.service';
 import { CategoryRepository } from './category.repository';
 import { CategoryEntity } from '@/entities/category.entity';
-import { CheckBoolean, createSlug } from '@/common/enums/functions.utils';
 import { CreateCategoryDTO } from './dto/create-category.dto';
-import { ConflictMessages } from '@/common/enums/message.enum';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { CheckBoolean, createSlug } from '@/common/enums/functions.utils';
+import { ConflictMessages, NotFoundMessages, PublicMessage, ServiceUnavailableMessage } from '@/common/enums/message.enum';
 
 @Injectable()
 export class CategoryService
 {
     constructor(
         private readonly categoryRepository: CategoryRepository,
-        private readonly s3:S3Service,
+        private readonly s3: S3Service,
     ) {}
 
-    async CreateCategory(data: CreateCategoryDTO, image:Express.Multer.File)
+    async CreateCategory(data: CreateCategoryDTO, image: Express.Multer.File)
     {
-        const categoryAndSlug = await this.checkSlugAndTitle({ slug: data.slug, title: data.title });
-        if (categoryAndSlug.category)
-            throw new HttpException(ConflictMessages.CategoryConflict, HttpStatus.CONFLICT);
-        const uploaded = await this.s3.UploadFile(image);
+        try
+        {
+            const categoryAndSlug = await this.checkSlugAndTitle({ slug: data.slug, title: data.title });
+            if (categoryAndSlug.category) throw new HttpException(ConflictMessages.CategoryConflict, HttpStatus.CONFLICT);
 
-        return await this.categoryRepository.save(
+            // Check Parent
+            let parent: CategoryEntity | null = null;
+            if (data.parent_id)
             {
-                image:uploaded.Location,
-                show:CheckBoolean(data.show),
-                slug:categoryAndSlug.slug,
-                title:data.title,
-            },
-        );
+                parent = await this.categoryRepository.findOneById(data.parent_id.toString());
+                if (!parent) throw new HttpException(NotFoundMessages.CategoryNotFound, HttpStatus.NOT_FOUND);
+            }
+
+            // Upload Image
+            const uploaded = await this.s3.UploadFile(image);
+
+            // Save Category
+            return await this.categoryRepository.save({
+                image: uploaded.Location,
+                show: CheckBoolean(data.show),
+                slug: categoryAndSlug.slug,
+                title: data.title,
+                parent: { id: parent?.id },
+            });
+        }
+        catch (error)
+        {
+            console.log(error);
+            if (error instanceof HttpException)
+            {
+                throw error;
+            }
+            else
+                throw new HttpException(PublicMessage.Error, HttpStatus.BAD_REQUEST);
+        }
     }
 
     async checkSlugAndTitle(data: { slug?: string; title: string })
@@ -46,10 +68,10 @@ export class CategoryService
             category = await this.categoryRepository.findOneBySlug(title);
         }
         return {
-            category:category,
-            slug:slug || title,
+            category: category,
+            slug: slug || title,
         };
-
-
     }
+
+    async checkParentId(parentId?: string) {}
 }
