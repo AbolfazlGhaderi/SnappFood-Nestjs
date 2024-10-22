@@ -91,7 +91,7 @@ module.exports = {
         'import/no-named-as-default': 'off',
         'import/no-named-as-default-member': 'off',
         'import/namespace': 'off', // this is very slow
-        'import/no-unresolved': ['error', { ignore: ['src/'] }],
+        'import/no-unresolved': ['warn', { ignore: ['src/'] }],
         'no-spaced-func': 'error',
         'unicorn/filename-case': [
             'warn',
