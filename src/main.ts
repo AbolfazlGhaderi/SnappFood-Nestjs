@@ -11,7 +11,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap()
 {
     // Check Environments
-    CheckEnvironmentVariables('DB_HOST', 'DB_NAME', 'DB_PASSWORD', 'DB_USERNAME', 'DB_PORT', 'S3_ACCESS_KEY', 'S3_BUCKET', 'S3_SECRET_KEY', 'S3_ENDPOINT');
+    CheckEnvironmentVariables();
 
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 

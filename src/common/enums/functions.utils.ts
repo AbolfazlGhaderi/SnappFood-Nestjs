@@ -14,11 +14,11 @@ export function GenerateRandomByte(size: number)
     return randomBytes(size).toString('hex');
 }
 
-export function GenerateName(origialName: string)
+export function GenerateName(originalName: string)
 {
-    const name = origialName.split(extname(origialName))[0];
+    const name = originalName.split(extname(originalName))[0];
     const time = Date.now();
-    return `${name}_${GenerateRandomByte(6)}_${time}${extname(origialName)}`;
+    return `${name}_${GenerateRandomByte(6)}_${time}${extname(originalName)}`;
 }
 
 export function CheckBoolean(bool:string)
@@ -27,12 +27,6 @@ export function CheckBoolean(bool:string)
     {
         return true;
     }
-    else if (bool.toLowerCase() === 'false')
-    {
-        return false;
-    }
     else
-    {
         return false;
-    }
 }
