@@ -12,6 +12,9 @@ export class CategoryRepository extends Repository<CategoryEntity>
     )
     {
         super(categoryRepository.target, categoryRepository.manager, categoryRepository.queryRunner);
+        console.log('categoryRepository.target ===>', categoryRepository.target);
+        console.log('categoryRepository.manager ===>', categoryRepository.manager);
+        console.log('categoryRepository.queryRunner ===>', categoryRepository.queryRunner);
     }
 
     async findOneBySlug(slug: string)

@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, ListObjectsV2Command, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, ListObjectsV2Command, DeleteObjectCommand, PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ServiceUnavailableMessage } from '@/common/enums/message.enum';
 import { GenerateName } from '@/common/enums/functions.utils';
@@ -9,17 +9,6 @@ export class S3Service
     private readonly s3: S3Client;
     constructor()
     {
-        // this.s3 = new S3(
-        //     {
-        //         region:'default',
-        //         endpoint:process.env.S3_ENDPOINT,
-        //         credentials:{
-        //             accessKeyId:process.env.S3_ACCESS_KEY,
-        //             secretAccessKey:process.env.S3_SECRET_KEY,
-
-        //         },
-        //     },
-        // );
 
         this.s3 = new S3Client(
             {
@@ -33,16 +22,10 @@ export class S3Service
         );
     }
 
-    async UploadFile(file: Express.Multer.File)
+    async UploadFile(file: Express.Multer.File) : Promise<PutObjectCommandOutput & { location: string }>
     {
         try
         {
-
-            // return await this.s3.upload({
-            //     Body: file.buffer,
-            //     Bucket: process.env.S3_BUCKET,
-            //     Key: GenerateName(file.originalname),
-            // }).promise();
             const key = GenerateName(file.originalname);
             const uploadedFile = await this.s3.send(new PutObjectCommand(
                 {
@@ -53,9 +36,8 @@ export class S3Service
             ));
             const location = `https://${process.env.S3_BUCKET}.${(process.env.S3_ENDPOINT).slice(8)}/${key}`;
 
-            Reflect.set(uploadedFile, 'location', location);
-            console.log(uploadedFile);
-            return uploadedFile;
+            // Reflect.set(uploadedFile, 'location', location);
+            return { ...uploadedFile, location };
         }
         catch (error)
         {

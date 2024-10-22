@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { S3Service } from '../uplode/s3.service';
+import { S3Service } from '../upload/s3.service';
 import { CategoryRepository } from './category.repository';
 import { CategoryEntity } from '@/entities/category.entity';
 import { PaginationDTO } from '@/common/dto/pagination.dto';
@@ -38,10 +38,11 @@ export class CategoryService
 
             // Upload Image
             const uploaded = await this.s3.UploadFile(image);
+            console.log(uploaded);
 
             // Save Category
             return await this.categoryRepository.save({
-                image: uploaded.Location,
+                image: uploaded.location,
                 show: CheckBoolean(data.show),
                 slug: categoryAndSlug.slug,
                 title: data.title,
@@ -143,12 +144,12 @@ export class CategoryService
 
 
 
-            // Upload Image
+            // // Upload Image
             if (file)
             {
             // TODO: step 1 : Delete image  / step 2 : save image  
                 const uploaded = await this.s3.UploadFile(file);
-                category.image = uploaded.Location;
+                category.image = uploaded.location;
             }
 
             // Check Show
