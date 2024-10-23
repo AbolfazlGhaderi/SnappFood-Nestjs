@@ -7,7 +7,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { pagination } from '@/common/decorators/pagination.decorator';
 import { SwaggerConsumes } from '@/common/enums/awagger.consumes.enum';
 import { UploadeFileS3Interceptor } from '@/app/interceptors/uploadFile.interceptor';
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseIntPipe, ParseUUIDPipe, Patch, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Patch, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
 
 @ApiTags('Category')
 @Controller('category')
@@ -19,7 +19,7 @@ export class CategoryController
     @Post()
     @ApiConsumes(SwaggerConsumes.MultipartData)
     @UseInterceptors(UploadeFileS3Interceptor('image'))
-    async CreateCategory(
+    async createCategory_Handler(
         @UploadedFile( new ParseFilePipe({
             validators:[
                 new MaxFileSizeValidator({
@@ -33,20 +33,20 @@ export class CategoryController
         @Body() createCategoryData:CreateCategoryDTO,
     )
     {
-        return await this.categoryService.CreateCategory(createCategoryData, file);
+        return await this.categoryService.createCategory(createCategoryData, file);
     }
 
     @Get('/')
     @pagination()
-    async GetAllCategories(@Query() paginationData:PaginationDTO)
+    async getAllCategories_Handler(@Query() paginationData:PaginationDTO)
     {
-        return await this.categoryService.GetAllCategories(paginationData);
+        return await this.categoryService.getAllCategories(paginationData);
     }
 
     @Patch('/:id')
     @ApiConsumes(SwaggerConsumes.MultipartData)
     @UseInterceptors(UploadeFileS3Interceptor('image'))
-    async UpdateCategory(
+    async updateCategory_Handler(
         @Param('id', ParseUUIDPipe) id:string,
         @Body() updateData:UpdateCategoryDto,
         @UploadedFile( new ParseFilePipe({
@@ -61,6 +61,6 @@ export class CategoryController
         })) file: Express.Multer.File,
     )
     {
-        return await this.categoryService.UpdateCategory(id, updateData, file);
+        return await this.categoryService.updateCategory(id, updateData, file);
     }
 }

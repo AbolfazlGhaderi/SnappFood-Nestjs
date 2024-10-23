@@ -12,11 +12,11 @@ export class HttpExceptionFilter implements ExceptionFilter
         const status = exception.getStatus();
 
         const responseData = exception.getResponse();
-        let message: string | string[];
+        let message: string | string[] | object;
 
         if (typeof responseData === 'object' && Reflect.has(responseData, 'message'))
         {
-            message = Reflect.get(responseData, 'message');
+            message = responseData;
         }
         else if (typeof responseData === 'string')
         {
@@ -28,10 +28,11 @@ export class HttpExceptionFilter implements ExceptionFilter
         }
 
         response.status(status).json({
+            status:'error',
             statusCode: status,
             timestamp: Date.now(),
-            error: {
-                message: message,
+            data: {
+                message,
             },
         });
     }

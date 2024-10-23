@@ -22,7 +22,7 @@ export class S3Service
         );
     }
 
-    async UploadFile(file: Express.Multer.File) : Promise<PutObjectCommandOutput & { location: string }>
+    async uploadFile(file: Express.Multer.File) : Promise<PutObjectCommandOutput & { location: string }>
     {
         try
         {
@@ -46,7 +46,7 @@ export class S3Service
         }
     }
 
-    async DeleteFile(key:string)
+    async deleteFile(key:string)
     {
         try
         {
@@ -70,7 +70,7 @@ export class S3Service
         }
     }
 
-    async ShowFiles()
+    async showFiles()
     {
         const parameters = {
             Bucket: process.env.LIARA_BUCKET_OBJS_NAME,

@@ -19,6 +19,7 @@ export class ResponseControllerInterceptor implements NestInterceptor
                 if (data && data.data !== undefined)
                 {
                     return {
+                        status:'success',
                         statusCode: statusCode,
                         timestamp: Date.now(),
                         data: data.data,
@@ -26,6 +27,7 @@ export class ResponseControllerInterceptor implements NestInterceptor
                 }
                 
                 return {
+                    status:'success',
                     statusCode: statusCode,
                     timestamp: Date.now(),
                     data: data,

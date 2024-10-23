@@ -9,7 +9,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CheckBoolean, createSlug } from '@/common/enums/functions.utils';
 import { BadRequestMesage, ConflictMessages, NotFoundMessages, PublicMessage } from '@/common/enums/message.enum';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { isBoolean, isUUID, IsUUID } from 'class-validator';
+import { isUUID } from 'class-validator';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class CategoryService
@@ -17,9 +18,10 @@ export class CategoryService
     constructor(
         private readonly categoryRepository: CategoryRepository,
         private readonly s3: S3Service,
+        private dataSource: DataSource,
     ) {}
 
-    async CreateCategory(data: CreateCategoryDTO, image: Express.Multer.File)
+    async createCategory(data: CreateCategoryDTO, image: Express.Multer.File)
     {
         try
         {
@@ -32,12 +34,13 @@ export class CategoryService
             {
                 if (!isUUID(data.parent_id.toString()))
                     throw new HttpException(BadRequestMesage.InvalidUuid, HttpStatus.BAD_REQUEST);
+
                 parent = await this.categoryRepository.findOneById(data.parent_id.toString());
                 if (!parent) throw new HttpException(NotFoundMessages.CategoryNotFound, HttpStatus.NOT_FOUND);
             }
 
             // Upload Image
-            const uploaded = await this.s3.UploadFile(image);
+            const uploaded = await this.s3.uploadFile(image);
             console.log(uploaded);
 
             // Save Category
@@ -47,6 +50,7 @@ export class CategoryService
                 slug: categoryAndSlug.slug,
                 title: data.title,
                 parent: { id: parent?.id },
+                meta: uploaded,
             });
         }
         catch (error)
@@ -81,7 +85,7 @@ export class CategoryService
         };
     }
 
-    async GetAllCategories(paginationData:PaginationDTO)
+    async getAllCategories(paginationData:PaginationDTO)
     {
         const {  page, limit, skip } = PaginationSolver(+paginationData.page, +paginationData.limit);
         const [ categories, count ] = await this.categoryRepository.findAndCount(
@@ -109,7 +113,7 @@ export class CategoryService
         };
     }
 
-    async UpdateCategory(id:string, data:UpdateCategoryDto, file:Express.Multer.File)
+    async updateCategory(id:string, data:UpdateCategoryDto, file:Express.Multer.File)
     {
         try
         {
@@ -148,8 +152,9 @@ export class CategoryService
             if (file)
             {
             // TODO: step 1 : Delete image  / step 2 : save image  
-                const uploaded = await this.s3.UploadFile(file);
+                const uploaded = await this.s3.uploadFile(file);
                 category.image = uploaded.location;
+                category.meta = uploaded;
             }
 
             // Check Show
@@ -179,4 +184,5 @@ export class CategoryService
                 throw new HttpException(PublicMessage.Error, HttpStatus.BAD_REQUEST);
         }
     }
+
 }

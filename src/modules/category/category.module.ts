@@ -4,7 +4,6 @@ import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
 import { CategoryEntity } from '@/entities/category.entity';
 import { CategoryRepository } from './category.repository';
-import { S3Service } from '../upload/s3.service';
 
 @Module(
     {
