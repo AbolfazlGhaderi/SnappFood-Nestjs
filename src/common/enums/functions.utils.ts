@@ -9,19 +9,19 @@ export const createSlug = (string: string) =>
     return string.replaceAll(/[\/!"#$%&'()*+.:;<>?@^_`~«»،ءًٌٍُِ]+/g, '').replaceAll(/\s+/g, '-');
 };
 
-export function GenerateRandomByte(size: number)
+export function generateRandomByte(size: number)
 {
     return randomBytes(size).toString('hex');
 }
 
-export function GenerateName(originalName: string)
+export function generateName(originalName: string)
 {
     const name = originalName.split(extname(originalName))[0];
     const time = Date.now();
-    return `${name}_${GenerateRandomByte(6)}_${time}${extname(originalName)}`;
+    return `${name}_${generateRandomByte(6)}_${time}${extname(originalName)}`;
 }
 
-export function CheckBoolean(bool:string)
+export function checkBoolean(bool:string)
 {
     if (bool.toLowerCase() === 'true')
     {

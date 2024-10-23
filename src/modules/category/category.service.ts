@@ -6,7 +6,7 @@ import { PaginationDTO } from '@/common/dto/pagination.dto';
 import { CreateCategoryDTO } from './dto/create-category.dto';
 import { PaginationGenerator, PaginationSolver } from '@/app/utils/pagination.utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CheckBoolean, createSlug } from '@/common/enums/functions.utils';
+import { checkBoolean, createSlug } from '@/common/enums/functions.utils';
 import { BadRequestMesage, ConflictMessages, NotFoundMessages, PublicMessage } from '@/common/enums/message.enum';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { isUUID } from 'class-validator';
@@ -23,6 +23,7 @@ export class CategoryService
 
     async createCategory(data: CreateCategoryDTO, image: Express.Multer.File)
     {
+
         try
         {
             const categoryAndSlug = await this.checkSlugAndTitle({ slug: data.slug, title: data.title });
@@ -46,7 +47,7 @@ export class CategoryService
             // Save Category
             return await this.categoryRepository.save({
                 image: uploaded.location,
-                show: CheckBoolean(data.show),
+                show: checkBoolean(data.show),
                 slug: categoryAndSlug.slug,
                 title: data.title,
                 parent: { id: parent?.id },
@@ -159,7 +160,7 @@ export class CategoryService
 
             // Check Show
             if (show)
-                category.show = CheckBoolean(show);
+                category.show = checkBoolean(show);
 
             // Check Title
             if (title)

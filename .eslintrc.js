@@ -20,7 +20,7 @@ module.exports = {
         'import/extensions': ['.js', '.cjs', '.mjs', '.ts', '.cts', '.mts'],
     },
     rules: {
-        'no-misleading-character-class':['warn'],
+        'no-misleading-character-class': ['warn'],
         'array-bracket-spacing': ['error', 'always'],
         'brace-style': ['error', 'allman', { allowSingleLine: true }],
         'comma-dangle': ['error', 'always-multiline'],
@@ -40,24 +40,14 @@ module.exports = {
         'no-console': 'off',
         'no-empty': 'off',
         'no-inline-comments': 'off',
-        'no-unused-vars': [
-            'off',
-            { vars: 'all', args: 'after-used', ignoreRestSiblings: false },
-        ],
+        'no-unused-vars': ['off', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
         'no-process-exit': 'off', // TODO: check if this is still needed
-        'object-curly-spacing': [
-            'error',
-            'always',
-            { arraysInObjects: true, objectsInObjects: true },
-        ],
+        'object-curly-spacing': ['error', 'always', { arraysInObjects: true, objectsInObjects: true }],
         'one-var': 'off',
         quotes: ['error', 'single'],
         semi: ['error', 'always'],
         'space-infix-ops': ['error', { int32Hint: false }],
-        'space-before-blocks': [
-            'error',
-            { functions: 'always', keywords: 'always', classes: 'always' },
-        ],
+        'space-before-blocks': ['error', { functions: 'always', keywords: 'always', classes: 'always' }],
         'arrow-spacing': ['error', { before: true, after: true }],
         'switch-colon-spacing': 'error',
         'block-spacing': 'error',
@@ -72,16 +62,9 @@ module.exports = {
                 },
             },
         ],
-        'spaced-comment': [
-            'error',
-            'always',
-            { markers: ['/'], exceptions: ['-'] },
-        ],
+        'spaced-comment': ['error', 'always', { markers: ['/'], exceptions: ['-'] }],
         'keyword-spacing': 'error',
-        'space-before-function-paren': [
-            'error',
-            { anonymous: 'always', named: 'never', asyncArrow: 'always' },
-        ],
+        'space-before-function-paren': ['error', { anonymous: 'always', named: 'never', asyncArrow: 'always' }],
         'semi-spacing': ['error', { before: false, after: true }],
         'no-trailing-spaces': ['error', { ignoreComments: true }],
         'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
@@ -91,14 +74,12 @@ module.exports = {
         'import/no-named-as-default': 'off',
         'import/no-named-as-default-member': 'off',
         'import/namespace': 'off', // this is very slow
-        'import/no-unresolved': ['warn', { ignore: ['src/'] }],
+        'import/no-unresolved': ['warn', { ignore: ['src/','@/'] }],
         'no-spaced-func': 'error',
         'unicorn/filename-case': [
-            'warn',
+            'off',
             {
-                
-                'case': 'camelCase'
-                
+                case: 'camelCase',
             },
         ],
         'no-restricted-imports': [
@@ -149,58 +130,46 @@ module.exports = {
             },
             plugins: ['@typescript-eslint'],
             rules: {
-                '@typescript-eslint/unbound-method': 'off',
+                '@typescript-eslint/no-unused-vars': ['error', { args: 'after-used', vars: 'all', varsIgnorePattern: '^_' }],
+                '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', vars: 'all', varsIgnorePattern: '^_' }],
                 '@typescript-eslint/restrict-template-expressions': 'off',
                 '@typescript-eslint/no-unsafe-member-access': 'off',
                 '@typescript-eslint/camelcase': 'off',
                 '@typescript-eslint/no-unsafe-return': 'off',
                 '@typescript-eslint/no-unsafe-call': 'off',
                 '@typescript-eslint/no-unsafe-assignment': 'off',
-                "@typescript-eslint/no-unsafe-enum-comparison": "off", //TODO: add this back in
-                '@typescript-eslint/no-unused-vars': 'off',
-                '@typescript-eslint/no-floating-promises': [
+                '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true, ignoreIIFE: false }],
+
+                '@typescript-eslint/naming-convention': [
                     'error',
-                    { ignoreVoid: true, ignoreIIFE: false },
+                    {
+                        selector: 'method',
+                        format: ['camelCase'],
+                        leadingUnderscore: 'allow',
+                    },
+                    {
+                        selector: 'function',
+                        format: ['camelCase'],
+                        leadingUnderscore: 'allow',
+                    },
                 ],
                 '@typescript-eslint/naming-convention': [
                     'error',
                     {
-                        selector: 'default',
-                        format: null,
-                    },
-                    {
                         selector: 'variable',
-                        format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
-                        types: ['boolean'],
-                        prefix: ['is', 'should', 'has', 'can', 'did', 'will'],
-                    },
-                    {
-                        selector: 'variableLike',
-                        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
-                        leadingUnderscore: 'allow',
-                    },
-                    {
-                        selector: 'parameter',
                         format: ['camelCase'],
                         leadingUnderscore: 'allow',
                     },
+                ],
+
+                '@typescript-eslint/naming-convention': [
+                    'error',
                     {
-                        selector: 'memberLike',
-                        modifiers: ['private'],
-                        format: ['camelCase'],
-                        leadingUnderscore: 'allow',
-                    },
-                    {
-                        selector: 'typeLike',
+                        selector: 'class',
                         format: ['PascalCase'],
                     },
                     {
-                        selector: 'property',
-                        modifiers: ['readonly'],
-                        format: ['camelCase', 'UPPER_CASE'],
-                    },
-                    {
-                        selector: 'enumMember',
+                        selector: 'interface',
                         format: ['PascalCase'],
                     },
                 ],

@@ -1,5 +1,4 @@
 import { Global, Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { S3Service } from './s3.service';
 
 @Global()

@@ -1,7 +1,7 @@
 import { S3Client, PutObjectCommand, ListObjectsV2Command, DeleteObjectCommand, PutObjectCommandOutput } from '@aws-sdk/client-s3';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ServiceUnavailableMessage } from '@/common/enums/message.enum';
-import { GenerateName } from '@/common/enums/functions.utils';
+import { generateName } from '@/common/enums/functions.utils';
 
 @Injectable()
 export class S3Service
@@ -26,7 +26,7 @@ export class S3Service
     {
         try
         {
-            const key = GenerateName(file.originalname);
+            const key = generateName(file.originalname);
             const uploadedFile = await this.s3.send(new PutObjectCommand(
                 {
                     Body: file.buffer,
