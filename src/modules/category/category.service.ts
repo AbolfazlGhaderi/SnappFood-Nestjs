@@ -2,9 +2,9 @@
 import { S3Service } from '../upload/s3.service';
 import { CategoryRepository } from './category.repository';
 import { CategoryEntity } from '@/entities/category.entity';
-import { PaginationDTO } from '@/common/dto/pagination.dto';
+import { PaginationDTO } from '@/common/dtoes/pagination.dto';
 import { CreateCategoryDTO } from './dto/create-category.dto';
-import { PaginationGenerator, PaginationSolver } from '@/app/utils/pagination.utils';
+import { paginationSolver, paginationGenerator } from '@/app/utils/pagination.utils';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { checkBoolean, createSlug } from '@/common/enums/functions.utils';
 import { BadRequestMesage, ConflictMessages, NotFoundMessages, PublicMessage } from '@/common/enums/message.enum';
@@ -88,7 +88,7 @@ export class CategoryService
 
     async getAllCategories(paginationData:PaginationDTO)
     {
-        const {  page, limit, skip } = PaginationSolver(+paginationData.page, +paginationData.limit);
+        const {  page, limit, skip } = paginationSolver(+paginationData.page, +paginationData.limit);
         const [ categories, count ] = await this.categoryRepository.findAndCount(
             {
                 where:{},
@@ -109,7 +109,7 @@ export class CategoryService
         );
 
         return {
-            pagination: PaginationGenerator(page, limit, count),
+            pagination: paginationGenerator(page, limit, count),
             categories:categories,
         };
     }
