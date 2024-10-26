@@ -114,11 +114,11 @@ export class CategoryService
         };
     }
 
-    async updateCategory(id:string, data:UpdateCategoryDto, file:Express.Multer.File)
+    async updateCategory(data:UpdateCategoryDto, file:Express.Multer.File)
     {
         try
         {
-            const { show, title, parent_id } = data;
+            const { id, show, title, parent_id } = data;
             let { slug } = data;
 
             let category = await this.categoryRepository.findOneById(id);
@@ -170,7 +170,7 @@ export class CategoryService
             category = await this.categoryRepository.save(category);
             return {
                 message : PublicMessage.UpdateSuccess,
-                category : category,
+                id : category.id,
             };
 
         }
