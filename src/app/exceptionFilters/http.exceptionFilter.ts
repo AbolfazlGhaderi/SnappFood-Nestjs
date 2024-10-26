@@ -13,10 +13,12 @@ export class HttpExceptionFilter implements ExceptionFilter
 
         const responseData = exception.getResponse();
         let message: string | string[] | object;
+        let meta: string | string[] | object;
+
 
         if (typeof responseData === 'object' && Reflect.has(responseData, 'message'))
         {
-            message = responseData;
+            message = Reflect.get(responseData, 'message');
         }
         else if (typeof responseData === 'string')
         {

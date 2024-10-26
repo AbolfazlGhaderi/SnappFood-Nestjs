@@ -27,8 +27,8 @@ To ensure a consistent structure throughout the project, please adhere to the fo
   - Class names should follow the `PascalCase` convention
      - Example: `UserController`, `OrderService`, `PaymentGateway`
 
-4. **Interceptor and Middleware Names:**
-  - Interceptor and middleware names should also be in `PascalCase`
+4. **Interceptor , Middleware and Decorator Names:**
+  - Interceptor , Middleware and Decorator names should also be in `PascalCase`
     - Example: `LoggingInterceptor`, `AuthMiddleware`
 
 5. **Controller Names:**
