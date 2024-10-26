@@ -45,7 +45,7 @@ export class CategoryService
             console.log(uploaded);
 
             // Save Category
-            return await this.categoryRepository.save({
+            const newCategory =  await this.categoryRepository.save({
                 image: uploaded.location,
                 show: checkBoolean(data.show),
                 slug: categoryAndSlug.slug,
@@ -53,6 +53,11 @@ export class CategoryService
                 parent: { id: parent?.id },
                 meta: uploaded,
             });
+
+            return {
+                message: PublicMessage.CreateSuccess,
+                id: newCategory.id,
+            };
         }
         catch (error)
         {
@@ -184,6 +189,16 @@ export class CategoryService
             else
                 throw new HttpException(PublicMessage.Error, HttpStatus.BAD_REQUEST);
         }
+    }
+    async deleteCategory(id: string)
+    {
+        const result = await this.categoryRepository.delete({
+            id: id,
+        });
+        console.log(result);
+        return {
+            message : PublicMessage.DeleteSuccess,
+        };
     }
 
 }

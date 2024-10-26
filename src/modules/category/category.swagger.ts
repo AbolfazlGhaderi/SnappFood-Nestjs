@@ -1,6 +1,7 @@
 import { generateExampleForSwagger } from '@/app/utils/swaggerMethods.util';
+import { PublicMessage } from '@/common/enums/message.enum';
 import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 export function Create_CategorySwaggerDecorator()
 {
@@ -34,28 +35,8 @@ export function Create_CategorySwaggerDecorator()
                     examples: {
                         Created: {
                             value: generateExampleForSwagger(HttpStatus.CREATED, {
-                                image: 'https://snappfood-ghaderi.storage.c2.liara.space/photo_2024-08-21_15-54-02_81898308a35d_1729918458252.jpg',
-                                show: true,
-                                slug: 'dvsdfsdf',
-                                title: 'string',
-                                parent: {
-                                    id: 'f683f637-ec63-463b-a7b9-f1e00b8da9ca',
-                                },
-                                meta: {
-                                    $metadata: {
-                                        httpStatusCode: 200,
-                                        requestId: '1801E7AC15BAF28F',
-                                        extendedRequestId: '6c740fc60f90396e932922158654ae759aae569e2553c68f0cb10ceff8ef7650',
-                                        attempts: 1,
-                                        totalRetryDelay: 0,
-                                    },
-                                    ETag: '\'2e0c1260d4bb7545103a4e1b53431a0b\'',
-                                    location: 'https://snappfood-ghaderi.storage.c2.liara.space/photo_2024-08-21_15-54-02_81898308a35d_1729918458252.jpg',
-                                },
-                                id: '5fc16234-d73e-4ca5-9049-f9ec4433e6fc',
-                                created_at: '2024-10-26T04:54:18.584Z',
-                                update_at: '2024-10-26T04:54:18.584Z',
-                                delete_at: null,
+                                message: PublicMessage.CreateSuccess,
+                                id: 'string(UUID)',
                             }),
                         },
                     },
@@ -168,8 +149,8 @@ export function Update_CategorySwaggerDecorator()
                 'application/json': {
                     examples: {
                         Updated: {
-                            value: generateExampleForSwagger(HttpStatus.CREATED, {
-                                message: 'با موفقیت آپدیت شد',
+                            value: generateExampleForSwagger(HttpStatus.OK, {
+                                message: PublicMessage.UpdateSuccess,
                                 id: '60269ddc-2c35-469f-a482-b9b4148881e8',
                             }),
                         },
@@ -186,9 +167,52 @@ export function Update_CategorySwaggerDecorator()
                     examples: {
                         BadRequest: {
                             value: generateExampleForSwagger(HttpStatus.BAD_REQUEST, {
-                                message: [
-                                    'id must be a UUID',
-                                ],
+                                message: 'string | string[]',
+                            }),
+                        },
+                    },
+                },
+            },
+        }),
+    );
+}
+
+export function Delete_CategorySwaggerDecorator()
+{
+    return applyDecorators(
+        ApiOperation({ summary: 'Delete an existing category' }),
+        ApiParam({
+            name: 'id',
+            type: 'string',
+            description: 'id must be a UUID',
+            required: true,
+        }),
+        // 200
+        ApiResponse({
+            status: HttpStatus.OK,
+            description: 'Category deleted successfully',
+            content: {
+                'application/json': {
+                    examples: {
+                        Deleted: {
+                            value: generateExampleForSwagger(HttpStatus.OK, {
+                                message: PublicMessage.DeleteSuccess,
+                            }),
+                        },
+                    },
+                },
+            },
+        }),
+        // 400
+        ApiResponse({
+            status: HttpStatus.BAD_REQUEST,
+            description: 'Error in the validation of the Body or Bad request',
+            content: {
+                'application/json': {
+                    examples: {
+                        BadRequest: {
+                            value: generateExampleForSwagger(HttpStatus.BAD_REQUEST, {
+                                message: 'string | string[]',
                             }),
                         },
                     },

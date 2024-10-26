@@ -7,8 +7,8 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { pagination } from '@/common/decorators/pagination.decorator';
 import { SwaggerConsumes } from '@/common/enums/awagger.consumes.enum';
 import { UploadeFileS3Interceptor } from '@/app/interceptors/uploadFile.interceptor';
-import { Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Patch, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { Create_CategorySwaggerDecorator, Get_CategorySwaggerDecorator, Update_CategorySwaggerDecorator } from './category.swagger';
+import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, ParseUUIDPipe, Patch, Post, Query, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Create_CategorySwaggerDecorator, Delete_CategorySwaggerDecorator, Get_CategorySwaggerDecorator, Update_CategorySwaggerDecorator } from './category.swagger';
 
 @ApiTags('Category')
 @Controller('category')
@@ -46,7 +46,7 @@ export class CategoryController
         return await this.categoryService.getAllCategories(paginationData);
     }
 
-    @Patch('/:id')
+    @Patch('')
     @Update_CategorySwaggerDecorator()
     @ApiConsumes(SwaggerConsumes.MultipartData)
     @UseInterceptors(UploadeFileS3Interceptor('image'))
@@ -67,4 +67,12 @@ export class CategoryController
     {
         return await this.categoryService.updateCategory(updateData, file);
     }
+
+    @Delete('/:id')
+    @Delete_CategorySwaggerDecorator()
+    async deleteCategory_Handler(@Param('id', ParseUUIDPipe) id: string)
+    {
+        return await this.categoryService.deleteCategory(id);
+    }
+
 }
