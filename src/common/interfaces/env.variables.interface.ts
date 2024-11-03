@@ -11,4 +11,9 @@ export interface EnvVariables
     S3_ACCESS_KEY: string;
     S3_SECRET_KEY: string;
     S3_ENDPOINT: string;
+    MAIL_HOST: string;
+    MAIL_PORT: string;
+    MAIL_USER: string;
+    MAIL_PASSWORD: string;
+    MAIL_FROM: string;
 }

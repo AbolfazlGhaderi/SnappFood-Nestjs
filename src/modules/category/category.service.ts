@@ -11,6 +11,7 @@ import { BadRequestMesage, ConflictMessages, NotFoundMessages, PublicMessage } f
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { isUUID } from 'class-validator';
 import { DataSource } from 'typeorm';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class CategoryService
@@ -19,6 +20,7 @@ export class CategoryService
         private readonly categoryRepository: CategoryRepository,
         private readonly s3: S3Service,
         private dataSource: DataSource,
+        private readonly mailService: MailService,
     ) {}
 
     async createCategory(data: CreateCategoryDTO, image: Express.Multer.File)
@@ -199,6 +201,11 @@ export class CategoryService
         return {
             message : PublicMessage.DeleteSuccess,
         };
+    }
+
+    async sendEmail()
+    {
+        await this.mailService.SendEmail(process.env.MAIL_FROM, 'dev.ghaderi@gmail.com', 'test', 'Hello Abolfazl Ghaderi !', 'test');
     }
 
 }

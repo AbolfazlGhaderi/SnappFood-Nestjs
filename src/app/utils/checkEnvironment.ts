@@ -13,6 +13,11 @@ export const envTemplate: EnvVariables = {
     S3_ACCESS_KEY: '',
     S3_SECRET_KEY: '',
     S3_ENDPOINT:'',
+    MAIL_HOST:'',
+    MAIL_PORT:'',
+    MAIL_USER:'',
+    MAIL_PASSWORD:'',
+    MAIL_FROM:'',
 };
 
 export function CheckEnvironmentVariables()

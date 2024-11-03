@@ -20,7 +20,7 @@ module.exports = {
         'import/extensions': ['.js', '.cjs', '.mjs', '.ts', '.cts', '.mts'],
     },
     rules: {
-        'no-misleading-character-class': ['warn'],
+        'import/no-unresolved': 'off',
         'array-bracket-spacing': ['error', 'always'],
         'brace-style': ['error', 'allman', { allowSingleLine: true }],
         'comma-dangle': ['error', 'always-multiline'],
@@ -40,14 +40,19 @@ module.exports = {
         'no-console': 'off',
         'no-empty': 'off',
         'no-inline-comments': 'off',
-        'no-unused-vars': ['off', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
-        'no-process-exit': 'off', // TODO: check if this is still needed
-        'object-curly-spacing': ['error', 'always', { arraysInObjects: true, objectsInObjects: true }],
+        'object-curly-spacing': [
+            'error',
+            'always',
+            { arraysInObjects: true, objectsInObjects: true },
+        ],
         'one-var': 'off',
         quotes: ['error', 'single'],
-        semi: ['error', 'always'],
+        semi: ['error', 'never'],
         'space-infix-ops': ['error', { int32Hint: false }],
-        'space-before-blocks': ['error', { functions: 'always', keywords: 'always', classes: 'always' }],
+        'space-before-blocks': [
+            'error',
+            { functions: 'always', keywords: 'always', classes: 'always' },
+        ],
         'arrow-spacing': ['error', { before: true, after: true }],
         'switch-colon-spacing': 'error',
         'block-spacing': 'error',
@@ -62,24 +67,27 @@ module.exports = {
                 },
             },
         ],
-        'spaced-comment': ['error', 'always', { markers: ['/'], exceptions: ['-'] }],
+        'spaced-comment': [
+            'error',
+            'always',
+            { markers: ['/'], exceptions: ['-'] },
+        ],
         'keyword-spacing': 'error',
-        'space-before-function-paren': ['error', { anonymous: 'always', named: 'never', asyncArrow: 'always' }],
+        'space-before-function-paren': [
+            'error',
+            { anonymous: 'always', named: 'never', asyncArrow: 'always' },
+        ],
         'semi-spacing': ['error', { before: false, after: true }],
         'no-trailing-spaces': ['error', { ignoreComments: true }],
         'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
         strict: 'off',
-
-        'import/default': 'off',
-        'import/no-named-as-default': 'off',
-        'import/no-named-as-default-member': 'off',
-        'import/namespace': 'off', // this is very slow
-        'import/no-unresolved': ['warn', { ignore: ['src/','@/'] }],
         'no-spaced-func': 'error',
         'unicorn/filename-case': [
-            'off',
+            'warn',
             {
-                case: 'camelCase',
+                cases: {
+                    kebabCase: true,
+                },
             },
         ],
         'no-restricted-imports': [
@@ -105,7 +113,7 @@ module.exports = {
         'unicorn/prefer-node-protocol': 'off',
         'unicorn/prefer-top-level-await': 'off',
         'unicorn/prevent-abbreviations': [
-            'error',
+            'off',
             {
                 allowList: { Param: true, Req: true, Res: true },
                 ignore: ['\\.e2e-spec$', /^args/i, /^ignore/i],
@@ -130,16 +138,19 @@ module.exports = {
             },
             plugins: ['@typescript-eslint'],
             rules: {
-                '@typescript-eslint/no-unused-vars': ['error', { args: 'after-used', vars: 'all', varsIgnorePattern: '^_' }],
-                '@typescript-eslint/no-unused-vars': ['warn', { args: 'after-used', vars: 'all', varsIgnorePattern: '^_' }],
+                '@typescript-eslint/no-unused-vars': [
+                    'warn',
+                    { args: 'after-used', vars: 'all', varsIgnorePattern: '^_' },
+                ],
                 '@typescript-eslint/restrict-template-expressions': 'off',
                 '@typescript-eslint/no-unsafe-member-access': 'off',
-                '@typescript-eslint/camelcase': 'off',
                 '@typescript-eslint/no-unsafe-return': 'off',
                 '@typescript-eslint/no-unsafe-call': 'off',
                 '@typescript-eslint/no-unsafe-assignment': 'off',
-                '@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true, ignoreIIFE: false }],
-
+                '@typescript-eslint/no-floating-promises': [
+                    'error',
+                    { ignoreVoid: true, ignoreIIFE: false },
+                ],
                 '@typescript-eslint/naming-convention': [
                     'error',
                     {

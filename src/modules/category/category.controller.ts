@@ -75,4 +75,10 @@ export class CategoryController
         return await this.categoryService.deleteCategory(id);
     }
 
+    @Get('/email')
+    async email_Handler()
+    {
+        await this.categoryService.sendEmail();
+    }
+
 }
