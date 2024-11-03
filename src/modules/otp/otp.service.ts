@@ -1,7 +1,7 @@
-import { randomInt } from 'crypto';
-import { MailService } from '../mail/mail.service';
-import { Injectable } from '@nestjs/common';
-import { CacheManagerService } from '../cache-manager/cache-manager.service';
+import { randomInt } from 'crypto'
+import { MailService } from '../mail/mail.service'
+import { Injectable } from '@nestjs/common'
+import { CacheManagerService } from '../cache-manager/cache-manager.service'
 
 @Injectable()
 export class OtpService
@@ -14,7 +14,7 @@ export class OtpService
     // generate code
     generateOtp()
     {
-        return randomInt(10_000, 99_999);
+        return randomInt(10_000, 99_999)
     }
 
 

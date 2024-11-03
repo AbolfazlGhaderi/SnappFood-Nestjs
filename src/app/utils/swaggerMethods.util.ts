@@ -5,5 +5,5 @@ export function generateExampleForSwagger( statusCode: number, data: object )
         statusCode: statusCode,
         timestamp: Date.now(),
         data: data,
-    };
+    }
 }

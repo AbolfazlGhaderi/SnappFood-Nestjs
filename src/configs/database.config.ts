@@ -1,4 +1,4 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 
 export function DatabaseConfigs(): TypeOrmModuleOptions
 {
@@ -12,5 +12,5 @@ export function DatabaseConfigs(): TypeOrmModuleOptions
         entities: [ './dist/entities/*.entity.js' ],
         synchronize: true,
         logging: true,
-    };
+    }
 }

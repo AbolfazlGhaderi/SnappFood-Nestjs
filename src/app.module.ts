@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DatabaseConfigs } from './configs/database.config';
-import { CategoryModule } from './modules/category/category.module';
-import { UploadModule } from './modules/upload/upload.module';
-import { MailModule } from './modules/mail/mail.module';
-import { CacheModule } from '@nestjs/cache-manager';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { DatabaseConfigs } from './configs/database.config'
+import { CategoryModule } from './modules/category/category.module'
+import { UploadModule } from './modules/upload/upload.module'
+import { MailModule } from './modules/mail/mail.module'
+import { CacheModule } from '@nestjs/cache-manager'
 
 @Module({
     imports: [

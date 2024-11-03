@@ -1,35 +1,35 @@
-import { EntityName } from '../common/enums/entity.name.enum';
-import { BaseEntity } from '../common/abstracts/base.entity';
+import { EntityName } from '../common/enums/entity.name.enum'
+import { BaseEntity } from '../common/abstracts/base.entity'
 
-import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, UpdateDateColumn } from 'typeorm';
+import { Column, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, UpdateDateColumn } from 'typeorm'
 
 @Entity({ name: EntityName.Categories })
 export class CategoryEntity extends BaseEntity
 {
     @Column()
-    title: string;
+    title: string
 
     @Column({ unique: true, nullable: false })
-    slug: string;
+    slug: string
 
     @Column()
-    image: string;
+    image: string
 
     @Column({ type: 'boolean' })
-    show: boolean;
+    show: boolean
 
     @ManyToOne(() => CategoryEntity, (category) => category.children, { onDelete: 'CASCADE' })
     @JoinColumn({ name:'parent_id' })
-    parent: CategoryEntity | null;
+    parent: CategoryEntity | null
 
     @OneToMany(() => CategoryEntity, (category) => category.parent)
-    children: CategoryEntity[];
+    children: CategoryEntity[]
 
     @Column({ nullable: true, type: 'json' })
-    meta?: object;
+    meta?: object
 
     @UpdateDateColumn({ type: 'timestamptz' })
-    update_at: Date;
+    update_at: Date
     @DeleteDateColumn({ type: 'timestamptz' })
-    delete_at: Date;
+    delete_at: Date
 }

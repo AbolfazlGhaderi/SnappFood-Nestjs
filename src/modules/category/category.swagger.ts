@@ -1,7 +1,7 @@
-import { generateExampleForSwagger } from '@/app/utils/swaggerMethods.util';
-import { PublicMessage } from '@/common/enums/message.enum';
-import { applyDecorators, HttpStatus } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { generateExampleForSwagger } from '@/app/utils/swaggerMethods.util'
+import { PublicMessage } from '@/common/enums/message.enum'
+import { applyDecorators, HttpStatus } from '@nestjs/common'
+import { ApiBody, ApiConsumes, ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger'
 
 export function Create_CategorySwaggerDecorator()
 {
@@ -58,7 +58,7 @@ export function Create_CategorySwaggerDecorator()
                 },
             },
         }),
-    );
+    )
 }
 
 
@@ -114,7 +114,7 @@ export function Get_CategorySwaggerDecorator()
                 },
             },
         }),
-    );
+    )
 }
 
 export function Update_CategorySwaggerDecorator()
@@ -174,7 +174,7 @@ export function Update_CategorySwaggerDecorator()
                 },
             },
         }),
-    );
+    )
 }
 
 export function Delete_CategorySwaggerDecorator()
@@ -219,5 +219,5 @@ export function Delete_CategorySwaggerDecorator()
                 },
             },
         }),
-    );
+    )
 }

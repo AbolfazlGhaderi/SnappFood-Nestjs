@@ -1,4 +1,4 @@
-import { EnvVariables } from '@/common/interfaces/env.variables.interface';
+import { EnvVariables } from '@/common/interfaces/env.variables.interface'
 
 /* eslint-disable unicorn/prevent-abbreviations */
 
@@ -18,15 +18,15 @@ export const envTemplate: EnvVariables = {
     MAIL_USER:'',
     MAIL_PASSWORD:'',
     MAIL_FROM:'',
-};
+}
 
 export function CheckEnvironmentVariables()
 {
-    const missingEnvVariables = Object.keys(envTemplate).filter(variable => !process.env[variable] || process.env[variable] === '');
+    const missingEnvVariables = Object.keys(envTemplate).filter(variable => !process.env[variable] || process.env[variable] === '')
     if (missingEnvVariables.length > 0)
     {
         // process.stderr.write(`\u001B[31mMissing environment variables: < ${missingEnvVariables.join(' >, < ')} >\u001B[0m\n`);
-        const ErrorMessage = `\u001B[31mMissing environment variables: < ${missingEnvVariables.join(' >, < ')} >\u001B[0m\n`;
-        throw new Error(ErrorMessage);
+        const ErrorMessage = `\u001B[31mMissing environment variables: < ${missingEnvVariables.join(' >, < ')} >\u001B[0m\n`
+        throw new Error(ErrorMessage)
     }
 }
