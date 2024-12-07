@@ -194,10 +194,9 @@ export class CategoryService
     }
     async deleteCategory(id: string)
     {
-        const result = await this.categoryRepository.delete({
+        await this.categoryRepository.delete({
             id: id,
         })
-        console.log(result)
         return {
             message : PublicMessage.DeleteSuccess,
         }

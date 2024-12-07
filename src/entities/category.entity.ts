@@ -30,6 +30,7 @@ export class CategoryEntity extends BaseEntity
 
     @UpdateDateColumn({ type: 'timestamptz' })
     update_at: Date
-    @DeleteDateColumn({ type: 'timestamptz' })
-    delete_at: Date
+
+    @DeleteDateColumn({ type: 'timestamptz', nullable: true })
+    delete_at?: Date
 }
