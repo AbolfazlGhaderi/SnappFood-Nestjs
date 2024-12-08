@@ -56,5 +56,5 @@ jobs:
             git pull
             npm install
             npm run build
-            pm2 start npm --name "nest-server" -- run start
+            pm2 restart nest-snappfood || pm2 start npm --name "nest-snappfood" -- run start
           '
