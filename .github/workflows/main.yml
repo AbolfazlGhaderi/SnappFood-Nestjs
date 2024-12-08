@@ -1,31 +1,57 @@
-name: CI/CD for NestJS Project
+name: NestJS CI/CD
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
-  deploy:
+  build-and-test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # دریافت کد از مخزن
-      - name: Checkout Code
-        uses: actions/checkout@v3
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+    
+    - name: Install Dependencies
+      run: npm install
+    
+    - name: Build Project
+      run: npm run build
 
-      # فعال کردن SSH-Agent و تنظیم کلید خصوصی
-      - name: Setup SSH and Deploy
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
-          ssh-keyscan -H 65.109.187.30 >> ~/.ssh/known_hosts
-          ssh root@65.109.187.30 << 'EOF'
-            cd /home/project/test-nest-snapp/SnappFood-Nestjs
-            git pull
-            npm install
-            npm run build
-            npm run start:dev
-          EOF
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    
+    - name: Install Dependencies
+      run: npm install
+    
+    - name: Build Project
+      run: npm run build
+    
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.SERVER_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+        script: |
+          cd /home/project/test-nest-snapp/SnappFood-Nestjs
+          git pull
+          npm install
+          npm run build
+          npm run start
