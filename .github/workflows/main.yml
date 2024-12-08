@@ -51,6 +51,7 @@ jobs:
         
         script: |
           bash -c '
+            export PATH=$PATH:/root/.nvm/versions/node/v22.12.0/bin/
             cd /home/project/test-nest-snapp/SnappFood-Nestjs
             git pull
             npm install
