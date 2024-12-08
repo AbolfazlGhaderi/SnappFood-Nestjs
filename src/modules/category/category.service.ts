@@ -96,6 +96,7 @@ export class CategoryService
     async getAllCategories(paginationData:PaginationDTO)
     {
         const {  page, limit, skip } = paginationSolver(+paginationData.page, +paginationData.limit)
+        console.log(this.categoryRepository)
         const [ categories, count ] = await this.categoryRepository.findAndCount(
             {
                 where:{},
