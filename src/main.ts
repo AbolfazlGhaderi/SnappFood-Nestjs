@@ -27,7 +27,7 @@ async function bootstrap()
     await app.listen(PORT || 3000)
 
     // logs
-    console.log(`app :  http://localhost:${PORT}`)
-    console.log(`Swagger :  http://localhost:${PORT}/api`)
+    console.log(`app :  http://ServerIp-or-localhost:${PORT}`)
+    console.log(`Swagger :  http://ServerIp-or-localhost:${PORT}/api`)
 }
 void bootstrap()
