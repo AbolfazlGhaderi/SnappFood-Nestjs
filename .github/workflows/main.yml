@@ -50,8 +50,10 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         
         script: |
-          cd /home/project/test-nest-snapp/SnappFood-Nestjs
-          git pull
-          npm install
-          npm run build
-          npm run start
+          bash -c '
+            cd /home/project/test-nest-snapp/SnappFood-Nestjs
+            git pull
+            npm install
+            npm run build
+            npm run start
+          '
