@@ -1,4 +1,4 @@
-name: CI/CD for NestJS Project - SnappFood
+name: CI/CD for NestJS Project
 
 on:
   push:
@@ -6,53 +6,26 @@ on:
       - main
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # مرحله چک‌اوت کد از مخزن
+      # دریافت کد از مخزن
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # نصب Node.js نسخه 22
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-
-      # نصب وابستگی‌ها
-      - name: Install Dependencies
-        run: npm install
-
-      # بیلد پروژه
-      - name: Build Project
-        run: npm run build
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
       # فعال کردن SSH-Agent و تنظیم کلید خصوصی
-      - name: Setup SSH Agent and Add Key
+      - name: Setup SSH and Deploy
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
-
-      # اضافه کردن سرور به known_hosts
-      - name: Add Server to Known Hosts
-        run: |
           ssh-keyscan -H 65.109.187.30 >> ~/.ssh/known_hosts
-
-      # دپلوی کردن پروژه روی سرور
-      - name: Deploy to Server
-        run: |
           ssh root@65.109.187.30 << 'EOF'
             cd /home/project/test-nest-snapp/SnappFood-Nestjs
             git pull
             npm install
             npm run build
-            pm2 restart all
+            npm run start:dev
           EOF
